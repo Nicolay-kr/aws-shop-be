@@ -1,0 +1,135 @@
+openapi: 3.0.3
+components:
+  schemas:
+    Products:
+      additionalProperties: false
+      properties:
+        description:
+          type: string
+        id:
+          type: number
+        price:
+          type: number
+        title:
+          type: string
+        count:
+          type: number
+      required:
+        - id
+        - title
+        - price
+        - count
+      type: object
+    ProductList:
+      items:
+        $ref: '#/definitions/Products'
+      type: array
+    ErrorResponse:
+      additionalProperties: false
+      properties:
+        message:
+          type: string
+      required:
+        - message
+      type: object
+    Access-Control-Allow-Origin:
+      type: string
+      default: '*'
+      # example:
+    id:
+      type: string
+info:
+  title: Products API
+  description: Api to get products
+  version: 1.0.0
+paths:
+  /product:
+    get:
+      summary: Get all products
+      description: Retrieves all products
+      operationId: getProductsList
+      parameters: []
+      tags: []
+      responses:
+        '200':
+          description: Product List
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductList'
+          headers:
+            Access-Control-Allow-Origin:
+              description: >-
+                The Access-Control-Allow-Origin response header indicates
+                whether the response can be shared with requesting code from the
+                given
+                [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin).
+                - [MDN
+                Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
+              schema:
+                $ref: '#/components/schemas/Access-Control-Allow-Origin'
+        '400':
+          description: Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          headers:
+            Access-Control-Allow-Origin:
+              description: >-
+                The Access-Control-Allow-Origin response header indicates
+                whether the response can be shared with requesting code from the
+                given
+                [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin).
+                - [MDN
+                Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
+              schema:
+                $ref: '#/components/schemas/Access-Control-Allow-Origin'
+  /products/{id}:
+    get:
+      summary: Get product by id
+      description: Get product by id
+      operationId: getProductById
+      parameters:
+        - name: id
+          in: path
+          description: Product Id
+          required: true
+          schema:
+            $ref: '#/components/schemas/id'
+      tags: []
+      responses:
+        '200':
+          description: Product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          headers:
+            Access-Control-Allow-Origin:
+              description: >-
+                The Access-Control-Allow-Origin response header indicates
+                whether the response can be shared with requesting code from the
+                given
+                [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin).
+                - [MDN
+                Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
+              schema:
+                $ref: '#/components/schemas/Access-Control-Allow-Origin'
+        '400':
+          description: Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          headers:
+            Access-Control-Allow-Origin:
+              description: >-
+                The Access-Control-Allow-Origin response header indicates
+                whether the response can be shared with requesting code from the
+                given
+                [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin).
+                - [MDN
+                Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
+              schema:
+                $ref: '#/components/schemas/Access-Control-Allow-Origin'
