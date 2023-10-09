@@ -1,6 +1,6 @@
 'use strict';
 
 import getProductsList from './handlers/getProductsList.js';
-import getProductsById from './handlers/getProductsById.js';
+import getProductById from './handlers/getProductById.js';
 
-export { getProductsList, getProductsById };
+export { getProductsList, getProductById };

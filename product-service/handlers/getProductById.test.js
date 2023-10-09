@@ -1,4 +1,4 @@
-import getProductsById from './getProductsById';
+import getProductById from './getProductById';
 import products from '../constants/products.js';
 
 const mockEvent = {
@@ -7,9 +7,9 @@ const mockEvent = {
   },
 };
 
-describe.only('Lambda getProductsById', () => {
+describe.only('Lambda getProductById', () => {
   it('should return product when it exists', async () => {
-    const result = await getProductsById(mockEvent);
+    const result = await getProductById(mockEvent);
     expect(result.statusCode).toBe(200);
     expect(JSON.parse(result.body)).toEqual(products[0]);
   });
@@ -21,7 +21,7 @@ describe.only('Lambda getProductsById', () => {
       pathParameters: { productId: nonExistentProductId },
     };
 
-    const result = await getProductsById(eventWithNonExistentProduct);
+    const result = await getProductById(eventWithNonExistentProduct);
     expect(result.statusCode).toBe(404);
     expect(JSON.parse(result.body)).toEqual({
       message: `Product with id ${nonExistentProductId} not found`,
