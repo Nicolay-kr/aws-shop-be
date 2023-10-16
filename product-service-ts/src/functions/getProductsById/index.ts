@@ -1,27 +1,34 @@
 //import schema from './schema';
 import { handlerPath } from '@libs/handler-resolver';
-// import Products from 'src/types/product';
 
 export default {
   handler: `${handlerPath(__dirname)}/handler.main`,
-  // handler: `src/functions/getProductsList/handler`,
   events: [
     {
       http: {
         method: 'get',
-        path: '/products',
-        // cors: true,
+        path: 'products/{id}',
+        cors: true,
         // documentation: {
-        //   summary: 'Get all products',
-        //   description: 'Retrieves all products',
+        //   pathParams: [
+        //     {
+        //       name: 'id',
+        //       description: 'Product Id',
+        //       schema: {
+        //         type: 'string',
+        //       },
+        //     },
+        //   ],
+        //   summary: 'Get product by id',
+        //   description: 'Get product by id',
         //   methodResponses: [
         //     {
         //       statusCode: 200,
         //       responseBody: {
-        //         description: 'Product List',
+        //         description: 'Product',
         //       },
         //       responseModels: {
-        //         'application/json': 'ProductList',
+        //         'application/json': 'Product',
         //       },
         //     },
         //     {
@@ -35,13 +42,17 @@ export default {
         //     },
         //   ],
         // },
-        // authorizer,
         documentation: {
           methodResponses: [
             {
               statusCode: 200,
               description: 'Successful API response',
-              bodyType: 'Products',
+              bodyType: 'Product',
+            },
+            {
+              statusCode: 404,
+              description: 'Failed API response',
+              bodyType: 'ServerError',
             },
           ],
         },

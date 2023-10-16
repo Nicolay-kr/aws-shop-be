@@ -1,14 +1,17 @@
 import type { AWS } from '@serverless/typescript';
 
-import {
-  getProductById,
-  getProductsList,
-} from '@functions/index';
+import { getProductsById, getProductsList } from '@functions/index';
 
 const serverlessConfiguration: AWS = {
   service: 'product-service-ts',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild', 'serverless-openapi-documenter', 'serverless-offline'],
+  plugins: [
+    'serverless-auto-swagger',
+    // 'serverless-webpack'
+    'serverless-esbuild',
+    'serverless-openapi-documenter',
+    'serverless-offline',
+  ],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
@@ -23,9 +26,12 @@ const serverlessConfiguration: AWS = {
     },
   },
   // import the function via paths
-  functions: { getProductById, getProductsList },
+  functions: { getProductsById, getProductsList },
   package: { individually: true },
   custom: {
+    autoswager:{
+      typefiles: ['./src/types/schemas.d.ts']
+    },
     esbuild: {
       bundle: true,
       minify: false,
@@ -40,30 +46,31 @@ const serverlessConfiguration: AWS = {
       version: '1.0.0',
       title: 'Products API',
       description: 'Api to get products',
-      models: [
-        {
-          name: 'Products',
-          description: 'Products',
-          contentType: 'application/json',
-          schema: '${file(schemas/schemas.json):definitions.Product}',
-        },
-        {
-          name: 'ProductList',
-          description: 'Product List',
-          contentType: 'application/json',
-          schema:
-            '${file(schemas/schemas.json):definitions.ProductListResponse}',
-        },
-        {
-          name: 'ErrorResponse',
-          description: 'Error Response',
-          contentType: 'application/json',
-          schema: '${file(schemas/schemas.json):definitions.ServerError}',
-        },
-      ],
+      // models: [
+      //   {
+      //     name: 'Products',
+      //     description: 'Products',
+      //     contentType: 'application/json',
+      //     schema: '${file(schemas/schemas.json):definitions.Product}',
+      //   },
+      //   {
+      //     name: 'ProductList',
+      //     description: 'Product List',
+      //     contentType: 'application/json',
+      //     schema:
+      //       '${file(schemas/schemas.json):definitions.ProductListResponse}',
+      //   },
+      //   {
+      //     name: 'ErrorResponse',
+      //     description: 'Error Response',
+      //     contentType: 'application/json',
+      //     schema: '${file(schemas/schemas.json):definitions.ServerError}',
+      //   },
+      // ],
     },
+    // webpack:
+    //   {webpackConfig: './webpack.config.js'}
   },
-  
 };
 
 module.exports = serverlessConfiguration;
