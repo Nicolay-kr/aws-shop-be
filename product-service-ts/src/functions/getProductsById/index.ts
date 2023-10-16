@@ -42,20 +42,30 @@ export default {
         //     },
         //   ],
         // },
-        documentation: {
-          methodResponses: [
-            {
-              statusCode: 200,
-              description: 'Successful API response',
-              bodyType: 'Product',
-            },
-            {
-              statusCode: 404,
-              description: 'Failed API response',
-              bodyType: 'ServerError',
-            },
-          ],
-        },
+        // documentation: {
+        //   methodResponses: [
+        //     {
+        //       statusCode: 200,
+        //       description: 'Successful API response',
+        //       bodyType: 'Product',
+        //     },
+        //     {
+        //       statusCode: 404,
+        //       description: 'Failed API response',
+        //       bodyType: 'ServerError',
+        //     },
+        //   ],
+        // },
+        responses: {
+          200: {
+            description: 'Successful API response from API',
+            bodyType: 'Products',
+          },
+          404: {
+            description: 'Failed API response',
+            bodyType: 'ServerError',
+          }
+        }
       },
     },
   ],

@@ -10,7 +10,7 @@ export default {
       http: {
         method: 'get',
         path: '/products',
-        // cors: true,
+        cors: true,
         // documentation: {
         //   summary: 'Get all products',
         //   description: 'Retrieves all products',
@@ -36,15 +36,21 @@ export default {
         //   ],
         // },
         // authorizer,
-        documentation: {
-          methodResponses: [
-            {
-              statusCode: 200,
-              description: 'Successful API response',
-              bodyType: 'Products',
-            },
-          ],
-        },
+        // documentation: {
+        //   methodResponses: [
+        //     {
+        //       statusCode: 200,
+        //       description: 'Successful API response',
+        //       bodyType: 'Products',
+        //     },
+        //   ],
+        // },
+        responses: {
+          200: {
+            description: 'Successful API response from API',
+            bodyType: 'Products',
+          }
+        }
       },
     },
   ],

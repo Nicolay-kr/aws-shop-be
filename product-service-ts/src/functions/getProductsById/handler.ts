@@ -10,7 +10,7 @@ export const getProductsById = //: ValidatedEventAPIGatewayProxyEvent<typeof sch
   async (event: APIGatewayProxyEvent) => {
     const productId = event.pathParameters?.id;
     const product = products.find(item => item.id === productId );
-    if (!product) return { statusCode: 404, message: 'Product not found' };
+    if (!product) return {...formatJSONResponse({ message: 'Product not found' }), statusCode: 404};
 
     return formatJSONResponse(product);
   };

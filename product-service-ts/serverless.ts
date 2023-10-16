@@ -6,16 +6,15 @@ const serverlessConfiguration: AWS = {
   service: 'product-service-ts',
   frameworkVersion: '3',
   plugins: [
-    'serverless-auto-swagger',
-    // 'serverless-webpack'
     'serverless-esbuild',
-    'serverless-openapi-documenter',
+    'serverless-auto-swagger',
     'serverless-offline',
   ],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
     region: 'eu-central-1',
+    stage: 'dev',
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
@@ -30,7 +29,11 @@ const serverlessConfiguration: AWS = {
   package: { individually: true },
   custom: {
     autoswager:{
-      typefiles: ['./src/types/schemas.d.ts']
+      title: 'Product Service API',
+      generateSwaggerOnDeploy: true,
+      typefiles: ['./src/types/schemas.d.ts'],
+      schemes: ['http', 'https', 'ws', 'wss'],
+      basePath: '/dev',
     },
     esbuild: {
       bundle: true,
@@ -42,32 +45,32 @@ const serverlessConfiguration: AWS = {
       platform: 'node',
       concurrency: 10,
     },
-    documentation: {
-      version: '1.0.0',
-      title: 'Products API',
-      description: 'Api to get products',
-      // models: [
-      //   {
-      //     name: 'Products',
-      //     description: 'Products',
-      //     contentType: 'application/json',
-      //     schema: '${file(schemas/schemas.json):definitions.Product}',
-      //   },
-      //   {
-      //     name: 'ProductList',
-      //     description: 'Product List',
-      //     contentType: 'application/json',
-      //     schema:
-      //       '${file(schemas/schemas.json):definitions.ProductListResponse}',
-      //   },
-      //   {
-      //     name: 'ErrorResponse',
-      //     description: 'Error Response',
-      //     contentType: 'application/json',
-      //     schema: '${file(schemas/schemas.json):definitions.ServerError}',
-      //   },
-      // ],
-    },
+    // documentation: {
+    //   version: '1.0.0',
+    //   title: 'Products API',
+    //   description: 'Api to get any products',
+    //   // models: [
+    //   //   {
+    //   //     name: 'Products',
+    //   //     description: 'Products',
+    //   //     contentType: 'application/json',
+    //   //     schema: '${file(schemas/schemas.json):definitions.Product}',
+    //   //   },
+    //   //   {
+    //   //     name: 'ProductList',
+    //   //     description: 'Product List',
+    //   //     contentType: 'application/json',
+    //   //     schema:
+    //   //       '${file(schemas/schemas.json):definitions.ProductListResponse}',
+    //   //   },
+    //   //   {
+    //   //     name: 'ErrorResponse',
+    //   //     description: 'Error Response',
+    //   //     contentType: 'application/json',
+    //   //     schema: '${file(schemas/schemas.json):definitions.ServerError}',
+    //   //   },
+    //   // ],
+    // },
     // webpack:
     //   {webpackConfig: './webpack.config.js'}
   },

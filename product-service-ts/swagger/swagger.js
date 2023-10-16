@@ -27,7 +27,16 @@
         ],
         "responses": {
           "200": {
-            "description": "200 response"
+            "description": "Successful API response from API",
+            "schema": {
+              "$ref": "#/definitions/Products"
+            }
+          },
+          "404": {
+            "description": "Failed API response",
+            "schema": {
+              "$ref": "#/definitions/ServerError"
+            }
           }
         }
       }
@@ -46,7 +55,10 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "200 response"
+            "description": "Successful API response from API",
+            "schema": {
+              "$ref": "#/definitions/Products"
+            }
           }
         }
       }
