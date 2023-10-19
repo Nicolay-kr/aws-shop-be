@@ -12,7 +12,7 @@ export default {
         responseData: {
           200: {
             description: 'Successful API response from API',
-            bodyType: 'Products',
+            bodyType: 'Product',
           },
           404: {
             description: 'Failed API response',

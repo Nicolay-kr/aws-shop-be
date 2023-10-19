@@ -29,7 +29,7 @@
           "200": {
             "description": "Successful API response from API",
             "schema": {
-              "$ref": "#/definitions/Products"
+              "$ref": "#/definitions/Product"
             }
           },
           "404": {
