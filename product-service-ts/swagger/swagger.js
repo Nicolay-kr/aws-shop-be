@@ -2,7 +2,7 @@
             module.exports = {
   "swagger": "2.0",
   "info": {
-    "title": "product-service-ts",
+    "title": "Product Service API",
     "version": "1"
   },
   "paths": {
@@ -55,7 +55,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Successful API response from API",
+            "description": "Successful API response",
             "schema": {
               "$ref": "#/definitions/Products"
             }
@@ -116,5 +116,12 @@
       "type": "object"
     }
   },
-  "securityDefinitions": {}
+  "securityDefinitions": {},
+  "basePath": "/dev",
+  "schemes": [
+    "http",
+    "https",
+    "ws",
+    "wss"
+  ]
 };

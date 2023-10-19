@@ -1,3 +1,5 @@
-export type ServerError = {
+type ServerError = {
   message: string;
 };
+
+export default ServerError;

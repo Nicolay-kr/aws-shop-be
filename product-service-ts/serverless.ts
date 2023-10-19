@@ -28,10 +28,10 @@ const serverlessConfiguration: AWS = {
   functions: { getProductsById, getProductsList },
   package: { individually: true },
   custom: {
-    autoswager:{
+    autoswagger:{
       title: 'Product Service API',
       generateSwaggerOnDeploy: true,
-      typefiles: ['./src/types/schemas.d.ts'],
+      typefiles: ['./src/types/api-types.d.ts'],
       schemes: ['http', 'https', 'ws', 'wss'],
       basePath: '/dev',
     },
@@ -45,34 +45,6 @@ const serverlessConfiguration: AWS = {
       platform: 'node',
       concurrency: 10,
     },
-    // documentation: {
-    //   version: '1.0.0',
-    //   title: 'Products API',
-    //   description: 'Api to get any products',
-    //   // models: [
-    //   //   {
-    //   //     name: 'Products',
-    //   //     description: 'Products',
-    //   //     contentType: 'application/json',
-    //   //     schema: '${file(schemas/schemas.json):definitions.Product}',
-    //   //   },
-    //   //   {
-    //   //     name: 'ProductList',
-    //   //     description: 'Product List',
-    //   //     contentType: 'application/json',
-    //   //     schema:
-    //   //       '${file(schemas/schemas.json):definitions.ProductListResponse}',
-    //   //   },
-    //   //   {
-    //   //     name: 'ErrorResponse',
-    //   //     description: 'Error Response',
-    //   //     contentType: 'application/json',
-    //   //     schema: '${file(schemas/schemas.json):definitions.ServerError}',
-    //   //   },
-    //   // ],
-    // },
-    // webpack:
-    //   {webpackConfig: './webpack.config.js'}
   },
 };
 

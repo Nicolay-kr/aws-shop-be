@@ -11,46 +11,12 @@ export default {
         method: 'get',
         path: '/products',
         cors: true,
-        // documentation: {
-        //   summary: 'Get all products',
-        //   description: 'Retrieves all products',
-        //   methodResponses: [
-        //     {
-        //       statusCode: 200,
-        //       responseBody: {
-        //         description: 'Product List',
-        //       },
-        //       responseModels: {
-        //         'application/json': 'ProductList',
-        //       },
-        //     },
-        //     {
-        //       statusCode: 400,
-        //       responseBody: {
-        //         description: 'Error response',
-        //       },
-        //       responseModels: {
-        //         'application/json': 'ErrorResponse',
-        //       },
-        //     },
-        //   ],
-        // },
-        // authorizer,
-        // documentation: {
-        //   methodResponses: [
-        //     {
-        //       statusCode: 200,
-        //       description: 'Successful API response',
-        //       bodyType: 'Products',
-        //     },
-        //   ],
-        // },
-        responses: {
+        responseData: {
           200: {
-            description: 'Successful API response from API',
+            description: 'Successful API response',
             bodyType: 'Products',
-          }
-        }
+          },
+        },
       },
     },
   ],
