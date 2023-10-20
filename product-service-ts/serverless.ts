@@ -27,8 +27,72 @@ const serverlessConfiguration: AWS = {
   // import the function via paths
   functions: { getProductsById, getProductsList },
   package: { individually: true },
+  resources: {
+    Resources: {
+      ProductsTable: {
+        Type: 'AWS::DynamoDB::Table',
+        Properties: {
+          TableName: 'Products',
+          AttributeDefinitions: [
+            {
+              AttributeName: 'id',
+              AttributeType: 'S',
+            },
+            {
+              AttributeName: 'title',
+              AttributeType: 'S',
+            },
+          ],
+          KeySchema: [
+            {
+              AttributeName: 'id',
+              KeyType: 'HASH',
+            },
+            {
+              AttributeName: 'title',
+              KeyType: 'RANGE',
+            }
+          ],
+          ProvisionedThroughput: {
+            ReadCapacityUnits: 1,
+            WriteCapacityUnits: 1,
+          },
+        },
+      },
+      StocksTable: {
+        Type: 'AWS::DynamoDB::Table',
+        Properties: {
+          TableName: 'Stocks',
+          AttributeDefinitions: [
+            {
+              AttributeName: 'product_id',
+              AttributeType: 'S',
+            },
+            {
+              AttributeName: 'count',
+              AttributeType: 'N',
+            },
+          ],
+          KeySchema: [
+            {
+              AttributeName: 'product_id',
+              KeyType: 'HASH',
+            },
+            {
+              AttributeName: 'count',
+              KeyType: 'RANGE', // Range Key
+            },
+          ],
+          ProvisionedThroughput: {
+            ReadCapacityUnits: 1,
+            WriteCapacityUnits: 1,
+          },
+        },
+      },
+    },
+  },
   custom: {
-    autoswagger:{
+    autoswagger: {
       title: 'Product Service API',
       generateSwaggerOnDeploy: true,
       typefiles: ['./src/types/api-types.d.ts'],
