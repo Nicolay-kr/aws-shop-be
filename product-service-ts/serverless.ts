@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 
-import { getProductsById, getProductsList } from '@functions/index';
+import { getProductsById, getProductsList, createProduct  } from '@functions/index';
 
 const serverlessConfiguration: AWS = {
   service: 'product-service-ts',
@@ -25,7 +25,7 @@ const serverlessConfiguration: AWS = {
     },
   },
   // import the function via paths
-  functions: { getProductsById, getProductsList },
+  functions: { getProductsById, getProductsList, createProduct },
   package: { individually: true },
   resources: {
     Resources: {
@@ -38,20 +38,12 @@ const serverlessConfiguration: AWS = {
               AttributeName: 'id',
               AttributeType: 'S',
             },
-            {
-              AttributeName: 'title',
-              AttributeType: 'S',
-            },
           ],
           KeySchema: [
             {
               AttributeName: 'id',
               KeyType: 'HASH',
             },
-            {
-              AttributeName: 'title',
-              KeyType: 'RANGE',
-            }
           ],
           ProvisionedThroughput: {
             ReadCapacityUnits: 1,
@@ -68,19 +60,11 @@ const serverlessConfiguration: AWS = {
               AttributeName: 'product_id',
               AttributeType: 'S',
             },
-            {
-              AttributeName: 'count',
-              AttributeType: 'N',
-            },
           ],
           KeySchema: [
             {
               AttributeName: 'product_id',
               KeyType: 'HASH',
-            },
-            {
-              AttributeName: 'count',
-              KeyType: 'RANGE', // Range Key
             },
           ],
           ProvisionedThroughput: {

@@ -16,8 +16,6 @@ export const getProductsById = //: ValidatedEventAPIGatewayProxyEvent<typeof sch
       'id' in event.pathParameters &&
       event.pathParameters.id
     ) {
-      console.log(event.pathParameters.id)
-
       const productItem = await dynamoDB.getItem({
         TableName: 'Products',
         Key: {

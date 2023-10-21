@@ -61,6 +61,48 @@
             }
           }
         }
+      },
+      "post": {
+        "summary": "createProduct",
+        "description": "",
+        "operationId": "createProduct.post.products",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body required in the request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProductWithCount"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The product was created",
+            "schema": {
+              "$ref": "#/definitions/ProductId"
+            }
+          },
+          "400": {
+            "description": "The product was not created",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          "422": {
+            "description": "Body is unprocessable",
+            "schema": {
+              "$ref": "#/definitions/ServerError"
+            }
+          }
+        }
       }
     }
   },
@@ -113,6 +155,41 @@
       ],
       "additionalProperties": false,
       "title": "ServerError",
+      "type": "object"
+    },
+    "ProductWithCount": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Product"
+        },
+        {
+          "properties": {
+            "count": {
+              "title": "count",
+              "type": "string"
+            }
+          },
+          "required": [
+            "count"
+          ],
+          "additionalProperties": false,
+          "type": "object"
+        }
+      ],
+      "title": "ProductWithCount"
+    },
+    "ProductId": {
+      "properties": {
+        "id": {
+          "title": "ProductId.id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false,
+      "title": "ProductId",
       "type": "object"
     }
   },
