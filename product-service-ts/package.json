@@ -4,6 +4,7 @@
   "description": "Serverless aws-nodejs-typescript template",
   "main": "serverless.ts",
   "scripts": {
+    "dev": "serverless offline start",
     "generate-schemas": "ts-json-schema-generator --path src/types/schemas.ts > schemas/schemas.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -8,7 +8,18 @@ export default {
       http: {
         method: 'POST',
         path: 'products',
-        cors: true,
+        cors: {
+          origin: '*',
+          headers: [
+            'Content-Type',
+            'X-Amz-Date',
+            'Authorization',
+            'X-Api-Key',
+            'X-Amz-Security-Token',
+            'X-Amz-User-Agent',
+            'Access-Control-Allow-Origin',
+          ],
+        },
         bodyType: 'ProductWithCount',
         responseData: {
           201: {

@@ -104,6 +104,28 @@
           }
         }
       }
+    },
+    "/collect-products": {
+      "get": {
+        "summary": "collectProducts",
+        "description": "",
+        "operationId": "collectProducts.get./collect-products",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful API response",
+            "schema": {
+              "$ref": "#/definitions/Products"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {

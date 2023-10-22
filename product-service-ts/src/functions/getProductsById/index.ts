@@ -8,7 +8,18 @@ export default {
       http: {
         method: 'get',
         path: 'products/{id}',
-        cors: true,
+        cors: {
+          origin: '*',
+          headers: [
+            'Content-Type',
+            'X-Amz-Date',
+            'Authorization',
+            'X-Api-Key',
+            'X-Amz-Security-Token',
+            'X-Amz-User-Agent',
+            'Access-Control-Allow-Origin',
+          ],
+        },
         responseData: {
           200: {
             description: 'Successful API response from API',
