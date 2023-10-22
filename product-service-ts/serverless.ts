@@ -77,11 +77,11 @@ const serverlessConfiguration: AWS = {
   },
   custom: {
     autoswagger: {
-      title: 'Product Service API',
+      title: 'product-service-ts',
       generateSwaggerOnDeploy: true,
       typefiles: ['./src/types/api-types.d.ts'],
-      schemes: ['http', 'https', 'ws', 'wss'],
       basePath: '/dev',
+      apiType: 'http'
     },
     esbuild: {
       bundle: true,

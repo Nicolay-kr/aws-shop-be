@@ -2,7 +2,7 @@
             module.exports = {
   "swagger": "2.0",
   "info": {
-    "title": "Product Service API",
+    "title": "product-service-ts",
     "version": "1"
   },
   "paths": {
@@ -216,11 +216,5 @@
     }
   },
   "securityDefinitions": {},
-  "basePath": "/dev",
-  "schemes": [
-    "http",
-    "https",
-    "ws",
-    "wss"
-  ]
+  "basePath": "/dev"
 };
