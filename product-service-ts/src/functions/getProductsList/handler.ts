@@ -7,6 +7,7 @@ import { unmarshall } from '@aws-sdk/util-dynamodb';
 const dynamoDB = new DynamoDB();
 
 const getProductsList = async (event) => {
+  console.log('executing getProductsList');
   try {
     const productsScan = await dynamoDB.scan({
       TableName: 'Products',

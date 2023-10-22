@@ -10,6 +10,7 @@ const dynamoDB = new DynamoDB();
 export const getProductsById = //: ValidatedEventAPIGatewayProxyEvent<typeof schema> =
   async (event: APIGatewayProxyEvent) => {
     let product = null;
+    console.log('executing getProductById id: ', event.pathParameters?.id);
     try {
       if (
         event?.pathParameters &&

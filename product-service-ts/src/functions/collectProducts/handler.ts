@@ -16,6 +16,7 @@ const dynamoDB = new DynamoDB();
 
 
 export const collectProducts = async () => {
+  console.log('executing collectProducts');
   try {
     const formattedProducts = products.map((product) => ({
       ...product,

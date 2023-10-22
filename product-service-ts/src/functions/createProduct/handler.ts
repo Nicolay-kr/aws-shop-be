@@ -18,6 +18,7 @@ export const createProduct: Handler = async (
   _context: Context
 ): Promise<APIGatewayProxyStructuredResultV2> => {
   if (event.body) {
+    console.log('executing createProduct', event.body);
     try {
       const body: Record<string, string> =
         typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
