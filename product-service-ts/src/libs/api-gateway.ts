@@ -9,7 +9,7 @@ export const formatJSONResponse = (response: Record<string, unknown> | Array<unk
     statusCode: statusCode,
     body: JSON.stringify(response),
     headers: {
-      'Access-Control-Allow-Origin': 'https://d2mj9dceogvzr.cloudfront.net',
+      'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Credentials': true,
     },
   }
@@ -20,7 +20,7 @@ export const errorResponse = (message: string, errorCode = 500) => {
     statusCode: errorCode,
     body: JSON.stringify({ message }),
     headers: {
-      'Access-Control-Allow-Origin': 'https://d2mj9dceogvzr.cloudfront.net',
+      'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Credentials': true,
     },
   };
