@@ -52,6 +52,7 @@ export const getProductsById = //: ValidatedEventAPIGatewayProxyEvent<typeof sch
 
       return formatJSONResponse(product);
     } catch (e) {
+      console.error('Error executing getProductsById:', e.errors || e);
       errorResponse(e);
     }
   };

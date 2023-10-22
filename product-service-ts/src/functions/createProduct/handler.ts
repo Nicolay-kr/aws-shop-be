@@ -67,6 +67,7 @@ export const createProduct: Handler = async (
 
       return formatJSONResponse({ productId: productItem.id }, 201)
     } catch(e) {
+      console.error('Error executing createProduct:', e.errors || e);
       return errorResponse(e);
     }
   }

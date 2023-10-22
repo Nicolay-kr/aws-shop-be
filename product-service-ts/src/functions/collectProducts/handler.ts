@@ -13,10 +13,9 @@ import { formatJSONResponse, errorResponse } from '@libs/api-gateway';
 
 const dynamoDB = new DynamoDB();
 
-export const collectProducts: Handler = async (
-  _event: APIGatewayProxyEventV2,
-  _context: Context
-): Promise<APIGatewayProxyStructuredResultV2> => {
+
+
+export const collectProducts = async () => {
   try {
     const formattedProducts = products.map((product) => ({
       ...product,
@@ -50,6 +49,7 @@ export const collectProducts: Handler = async (
     );
     return formatJSONResponse({ message: 'success' });
   } catch (e) {
+    console.error('Error executing collectProducts:', e.errors || e);
     errorResponse(e);
   }
 };

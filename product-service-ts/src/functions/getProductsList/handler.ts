@@ -32,6 +32,7 @@ const getProductsList = async (event) => {
 
     return formatJSONResponse(items);
   } catch (e) {
+    console.error('Error executing getProductsList:', e.errors || e);
     errorResponse(e);
   }
 };
