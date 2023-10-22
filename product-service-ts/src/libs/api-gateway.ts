@@ -7,7 +7,11 @@ export type ValidatedEventAPIGatewayProxyEvent<S> = Handler<ValidatedAPIGatewayP
 export const formatJSONResponse = (response: Record<string, unknown> | Array<unknown>, statusCode: number = 200) => {
   return {
     statusCode: statusCode,
-    body: JSON.stringify(response)
+    body: JSON.stringify(response),
+    headers: {
+      'Access-Control-Allow-Origin': 'https://d2mj9dceogvzr.cloudfront.net',
+      'Access-Control-Allow-Credentials': true,
+    },
   }
 }
 
@@ -15,5 +19,9 @@ export const errorResponse = (message: string, errorCode = 500) => {
   return {
     statusCode: errorCode,
     body: JSON.stringify({ message }),
+    headers: {
+      'Access-Control-Allow-Origin': 'https://d2mj9dceogvzr.cloudfront.net',
+      'Access-Control-Allow-Credentials': true,
+    },
   };
 };
