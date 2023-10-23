@@ -8,8 +8,11 @@ export type Products = Product[];
 export type ServerError = {
   message: string;
 };
-export type ProductWithCount = Product & {
-  count: string;
+export type ProductCreation = {
+  title: string;
+  description?: string;
+  price: number;
+  count: number;
 };
 export type ProductId = {
   id: string;

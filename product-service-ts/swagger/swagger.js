@@ -79,7 +79,7 @@
             "description": "Body required in the request",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ProductWithCount"
+              "$ref": "#/definitions/ProductCreation"
             }
           }
         ],
@@ -179,26 +179,33 @@
       "title": "ServerError",
       "type": "object"
     },
-    "ProductWithCount": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/Product"
+    "ProductCreation": {
+      "properties": {
+        "title": {
+          "title": "ProductCreation.title",
+          "type": "string"
         },
-        {
-          "properties": {
-            "count": {
-              "title": "count",
-              "type": "string"
-            }
-          },
-          "required": [
-            "count"
-          ],
-          "additionalProperties": false,
-          "type": "object"
+        "description": {
+          "title": "ProductCreation.description",
+          "type": "string"
+        },
+        "price": {
+          "title": "ProductCreation.price",
+          "type": "number"
+        },
+        "count": {
+          "title": "ProductCreation.count",
+          "type": "number"
         }
+      },
+      "required": [
+        "title",
+        "price",
+        "count"
       ],
-      "title": "ProductWithCount"
+      "additionalProperties": false,
+      "title": "ProductCreation",
+      "type": "object"
     },
     "ProductId": {
       "properties": {

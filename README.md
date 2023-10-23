@@ -6,3 +6,6 @@ aws dynamodb scan --table-name Products --region eu-central-1 --item '{ id: {'N'
 
 # start a local development environment
 serverless offline start
+
+# Create serverless template
+serverless create -t aws-nodejs-typescript -p product-service-ts

@@ -20,7 +20,7 @@ export default {
             'Access-Control-Allow-Origin',
           ],
         },
-        bodyType: 'ProductWithCount',
+        bodyType: 'ProductCreation',
         responseData: {
           201: {
             description: 'The product was created',
