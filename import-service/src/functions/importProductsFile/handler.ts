@@ -3,10 +3,10 @@ import { middyfy } from '@libs/lambda';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import * as AWS from 'aws-sdk';
 
-const s3 = new AWS.S3({region: 'eu-central-1'})
 const BUCKET = 'aws-csv-storage';
 
-const importProductsFile = async (event: APIGatewayProxyEvent) => {
+export const importProductsFile = async (event: APIGatewayProxyEvent|any) => {
+  const s3 = new AWS.S3({region: 'eu-central-1'})
   console.log('executing importProductsFile');
   const fileName = event.queryStringParameters.name;
 
