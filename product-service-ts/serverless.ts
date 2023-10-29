@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 
-import { getProductsById, getProductsList, createProduct, collectProducts  } from '@functions/index';
+import { getProductsById, getProductsList, createProduct, collectProducts, catalogBatchProcess  } from '@functions/index';
 
 const serverlessConfiguration: AWS = {
   service: 'product-service-ts',
@@ -23,9 +23,19 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
     },
+    iamRoleStatements: [
+      {
+        Effect: 'Allow',
+        Action: 'sqs:SendMessage',
+        Resource: {
+          'Fn::GetAtt': ['catalogItemsQueue', 'Arn'],
+        },
+      },
+
+    ],
   },
   // import the function via paths
-  functions: { getProductsById, getProductsList, createProduct, collectProducts },
+  functions: { getProductsById, getProductsList, createProduct, collectProducts, catalogBatchProcess },
   package: { individually: true },
   resources: {
     Resources: {
@@ -73,12 +83,18 @@ const serverlessConfiguration: AWS = {
           },
         },
       },
+      catalogItemsQueue:{
+        Type: 'AWS::SQS::Queue',
+        Properties: {
+          QueueName: 'catalogItemsQueue',
+        }
+      }
     },
   },
   custom: {
     autoswagger: {
       title: 'product-service-ts',
-      generateSwaggerOnDeploy: true,
+      generateSwaggerOnDeploy: false,
       typefiles: ['./src/types/api-types.d.ts'],
       basePath: '/dev',
       apiType: 'http'
