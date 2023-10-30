@@ -41,6 +41,14 @@ const serverlessConfiguration: AWS = {
           Ref: 'SNSTopic'
         },
       },
+      {
+        Effect: 'Allow',
+        Action: 'dynamodb:*',
+        Resource: [
+          'arn:aws:dynamodb:eu-central-1:244663611855:table/Products',
+          'arn:aws:dynamodb:eu-central-1:244663611855:table/Stocks',
+        ]
+      }
 
     ],
   },
