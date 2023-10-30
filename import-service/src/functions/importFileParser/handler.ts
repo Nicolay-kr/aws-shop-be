@@ -1,9 +1,15 @@
 import * as AWS from 'aws-sdk';
 import { S3Event } from 'aws-lambda';
 import csvParser from 'csv-parser';
+import { SendMessageCommand, SQSClient } from "@aws-sdk/client-sqs";
+
+const client = new SQSClient({});
+const SQS_QUEUE_URL: string = `https://sqs.eu-central-1.amazonaws.com/244663611855/catalogItemsQueue`
+
 
 const importFileParser = async (event: S3Event) => {
-  const s3 = new AWS.S3({ region: 'eu-north-1' });
+  const s3 = new AWS.S3({ region: 'eu-central-1' });
+
   for (const record of event.Records) {
     const bucketName = record.s3.bucket.name;
     const srcKey = decodeURIComponent(record.s3.object.key.replace(/\+/g, ' ')); // S3 keyname decoding
@@ -15,8 +21,15 @@ const importFileParser = async (event: S3Event) => {
       .createReadStream();
     const parser = csvParser();
     s3Stream.pipe(parser);
-    parser.on('data', (data) => {
-      console.log(data);
+    parser.on('data', async (data) => {
+
+      try {
+        const res = await sendSqsMessage(JSON.stringify(data));
+        console.log('SQS Message: ', res);
+      } catch (error) {
+        console.log('SQS Error: ', error);
+      }
+      console.log('data received: ', data);
     });
     await streamFinished(parser);
     console.log('streamFinished');
@@ -48,6 +61,23 @@ const streamFinished = (stream) => {
     stream.on('finish', resolve);
     stream.on('error', reject);
   });
+};
+
+const sendSqsMessage = async (message) => {
+  const command = new SendMessageCommand({
+    QueueUrl: SQS_QUEUE_URL,
+    DelaySeconds: 10,
+    // MessageAttributes: {
+      // Title: {
+      //   DataType: "String",
+      //   StringValue: "The Whistler",
+      // },
+    // },
+    MessageBody: message,
+  });
+
+  const response = await client.send(command);
+  return response;
 };
 
 export const main = importFileParser;

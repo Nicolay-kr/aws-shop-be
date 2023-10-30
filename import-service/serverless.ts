@@ -31,6 +31,11 @@ const serverlessConfiguration: AWS = {
         Action: 's3:*',
         Resource: 'arn:aws:s3:::aws-csv-storage/*',
       },
+      {
+        Effect: 'Allow',
+        Action: 'sqs:*',
+        Resource: 'arn:aws:sqs:eu-central-1:244663611855:catalogItemsQueue'
+      }
     ],
   },
   // import the function via paths

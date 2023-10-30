@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 
-import { getProductsById, getProductsList, createProduct, collectProducts, catalogBatchProcess  } from '@functions/index';
+import { getProductsById, getProductsList, createProduct, collectProducts, catalogBatchProcess } from '@functions/index';
 
 const serverlessConfiguration: AWS = {
   service: 'product-service-ts',
@@ -22,13 +22,23 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+      SNS_ARN:{
+        Ref: 'SNSTopic'
+      },
     },
     iamRoleStatements: [
       {
         Effect: 'Allow',
-        Action: 'sqs:SendMessage',
+        Action: 'sqs:*',
         Resource: {
           'Fn::GetAtt': ['catalogItemsQueue', 'Arn'],
+        },
+      },
+      {
+        Effect: 'Allow',
+        Action: 'sns:*',
+        Resource: {
+          Ref: 'SNSTopic'
         },
       },
 
@@ -88,7 +98,24 @@ const serverlessConfiguration: AWS = {
         Properties: {
           QueueName: 'catalogItemsQueue',
         }
-      }
+      },
+      SNSTopic:{
+        Type: 'AWS::SNS::Topic',
+        Properties: {
+          TopicName:'createProductTopic',
+          
+        }
+      },
+      SNSSubscription:{
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          Endpoint: 'nicolay.krischenovich@gmail.com',
+          Protocol: 'email',
+          TopicArn: {
+            Ref: 'SNSTopic'
+          },
+        }
+      },
     },
   },
   custom: {

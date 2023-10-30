@@ -1,30 +1,75 @@
-import { formatJSONResponse, errorResponse } from '@libs/api-gateway';
-import { middyfy } from '@libs/lambda';
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
-import { unmarshall } from '@aws-sdk/util-dynamodb';
+import { v4 } from 'uuid';
+import { marshall } from '@aws-sdk/util-dynamodb';
 import { SQSEvent, Context, SQSHandler, SQSRecord } from "aws-lambda";
+import { SNSClient, PublishCommand } from "@aws-sdk/client-sns";
 
 const dynamoDB = new DynamoDB();
+const snsClient = new SNSClient({});
 
 export const catalogBatchProcess: SQSHandler = async (
   event: SQSEvent,
   context: Context
 ): Promise<void> => {
+  let emailBody = "The next products were added:\n";
+
   for (const message of event.Records) {
-    await processMessageAsync(message);
+    await putProductToDynamoDb(message);
+    emailBody += `${message.body}\n`;
   }
-  console.info("done");
+
+  await publish(emailBody);
+
 };
 
-async function processMessageAsync(message: SQSRecord): Promise<any> {
+const putProductToDynamoDb = async(message: SQSRecord): Promise<any> => {
   try {
     console.log(`Processed message ${message.body}`);
-    // TODO: Do interesting work based on the new message
-    await Promise.resolve(1); //Placeholder for actual async work
-  } catch (err) {
-    console.error("An error occurred");
+    const product = JSON.parse(message.body);
+    const formattedProduct = {
+      ...product,
+      id: v4(),
+    }
+
+    const productsParams = {
+      TableName: 'Products',
+      Item: marshall({
+        id: formattedProduct.id,
+        title: formattedProduct.title,
+        description: formattedProduct.description,
+        price: formattedProduct.price,
+      }),
+    };
+
+    await dynamoDB.putItem(productsParams);
+
+    const stocksParams = {
+      TableName: 'Stocks',
+      Item: marshall({ product_id: formattedProduct.id, count: formattedProduct.count }),
+    };
+
+    await dynamoDB.putItem(stocksParams);
+
+  } catch (e) {
+    console.error('putProductToDynamoDb Error: ', e);
   }
 }
+
+const publish = async ( message ) => {
+  try{
+    const response = await snsClient.send(
+      new PublishCommand({
+        Message: message,
+        TopicArn: process.env.SNS_ARN,
+      }),
+    );
+    console.log('SNS success: ', message);
+    return response;
+
+  }catch(e){
+    console.log('SNS Error: ', e);
+  }
+};
 
 export const main = catalogBatchProcess;
 
