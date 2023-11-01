@@ -1,4 +1,5 @@
-import { SQSEvent, Context} from "aws-lambda";
+import { SQSEvent, Context } from 'aws-lambda';
+import { catalogBatchProcess } from './handler';
 
 const sendMock = jest.fn();
 const putItemMock = jest.fn();
@@ -8,8 +9,7 @@ jest.mock('@aws-sdk/client-sns', () => {
     SNSClient: jest.fn(() => ({
       send: sendMock,
     })),
-    PublishCommand: jest.fn(() => ({
-    })),
+    PublishCommand: jest.fn(() => ({})),
   };
 });
 jest.mock('@aws-sdk/client-dynamodb', () => {
@@ -20,14 +20,12 @@ jest.mock('@aws-sdk/client-dynamodb', () => {
   };
 });
 
-import { catalogBatchProcess } from './handler';
-
 const eventMock = {
   Records: [
     {
       messageId: '1',
       body: `{"title":"1984","description":"George Orwell's dystopian masterpiece that warns of the dangers of totalitarianism.","price":"39.99","count":"2"}`,
-    }
+    },
   ],
 } as SQSEvent;
 
