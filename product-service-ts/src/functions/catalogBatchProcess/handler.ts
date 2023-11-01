@@ -1,17 +1,14 @@
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
 import { v4 } from 'uuid';
 import { marshall } from '@aws-sdk/util-dynamodb';
-import { SQSEvent, Context, SQSHandler, SQSRecord } from "aws-lambda";
-import { SNSClient, PublishCommand } from "@aws-sdk/client-sns";
-
-const dynamoDB = new DynamoDB();
-const snsClient = new SNSClient({});
+import { SQSEvent, SQSHandler, SQSRecord } from 'aws-lambda';
+import { SNSClient, PublishCommand } from '@aws-sdk/client-sns';
 
 export const catalogBatchProcess: SQSHandler = async (
-  event: SQSEvent,
-  context: Context
+  event: SQSEvent
 ): Promise<void> => {
-  let emailBody = "The next products were added:\n";
+
+  let emailBody = 'The next products were added:\n';
 
   for (const message of event.Records) {
     await putProductToDynamoDb(message);
@@ -19,17 +16,19 @@ export const catalogBatchProcess: SQSHandler = async (
   }
 
   await publish(emailBody);
-
 };
 
-const putProductToDynamoDb = async(message: SQSRecord): Promise<any> => {
+const putProductToDynamoDb = async (message: SQSRecord): Promise<any> => {
+
+  const dynamoDB = new DynamoDB();
+
   try {
     console.log(`Processed message ${message.body}`);
     const product = JSON.parse(message.body);
     const formattedProduct = {
       ...product,
       id: v4(),
-    }
+    };
 
     const productsParams = {
       TableName: 'Products',
@@ -45,32 +44,33 @@ const putProductToDynamoDb = async(message: SQSRecord): Promise<any> => {
 
     const stocksParams = {
       TableName: 'Stocks',
-      Item: marshall({ product_id: formattedProduct.id, count: formattedProduct.count }),
+      Item: marshall({
+        product_id: formattedProduct.id,
+        count: formattedProduct.count,
+      }),
     };
 
     await dynamoDB.putItem(stocksParams);
-
   } catch (e) {
     console.error('putProductToDynamoDb Error: ', e);
   }
-}
+};
 
-const publish = async ( message ) => {
-  try{
+const publish = async (message) => {
+  const snsClient = new SNSClient({});
+  
+  try {
     const response = await snsClient.send(
       new PublishCommand({
         Message: message,
         TopicArn: process.env.SNS_ARN,
-      }),
+      })
     );
     console.log('SNS success: ', message);
     return response;
-
-  }catch(e){
+  } catch (e) {
     console.log('SNS Error: ', e);
   }
 };
 
 export const main = catalogBatchProcess;
-
-
