@@ -8,14 +8,11 @@ export const catalogBatchProcess: SQSHandler = async (
   event: SQSEvent
 ): Promise<void> => {
 
-  let emailBody = 'The next products were added:\n';
-
   for (const message of event.Records) {
     await putProductToDynamoDb(message);
-    emailBody += `${message.body}\n`;
+    await publish(message);
   }
 
-  await publish(emailBody);
 };
 
 const putProductToDynamoDb = async (message: SQSRecord): Promise<any> => {
@@ -58,15 +55,25 @@ const putProductToDynamoDb = async (message: SQSRecord): Promise<any> => {
 
 const publish = async (message) => {
   const snsClient = new SNSClient({});
+  const product = JSON.parse(message.body);
+  
   
   try {
     const response = await snsClient.send(
       new PublishCommand({
-        Message: message,
         TopicArn: process.env.SNS_ARN,
+        Message: `New product was created: ${JSON.stringify(product)}`,
+        Subject: 'New Product was Created',
+        MessageAttributes: {
+          priceType: {
+            DataType: 'String',
+            StringValue:
+              product.price > 100 ? 'Expensive' : 'Regular',
+          },
+        },
       })
     );
-    console.log('SNS success: ', message);
+    console.log('SNS success: ', product);
     return response;
   } catch (e) {
     console.log('SNS Error: ', e);

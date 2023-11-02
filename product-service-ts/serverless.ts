@@ -114,13 +114,29 @@ const serverlessConfiguration: AWS = {
           
         }
       },
-      SNSSubscription:{
+      SNSSubscriptionRegular:{
         Type: 'AWS::SNS::Subscription',
         Properties: {
           Endpoint: 'nicolay.krischenovich@gmail.com',
           Protocol: 'email',
           TopicArn: {
             Ref: 'SNSTopic'
+          },
+          FilterPolicy: {
+            priceType: ['Regular'],
+          },
+        }
+      },
+      SNSSubscriptionExpensive:{
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          Endpoint: 'Mikalai_Kryshchanovich@epam.com',
+          Protocol: 'email',
+          TopicArn: {
+            Ref: 'SNSTopic'
+          },
+          FilterPolicy: {
+            priceType: ['Expensive'],
           },
         }
       },
