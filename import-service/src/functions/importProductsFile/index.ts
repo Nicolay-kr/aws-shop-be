@@ -1,5 +1,6 @@
 
 import { handlerPath } from '@libs/handler-resolver';
+// import { basicAuthorizer } from '@authorization-service/functions/';
 
 export default {
   handler: `${handlerPath(__dirname)}/handler.main`,
@@ -19,6 +20,13 @@ export default {
             'X-Amz-User-Agent',
             'Access-Control-Allow-Origin',
           ],
+        },
+        authorizer: {
+          name: 'tokenAuth',
+          arn: 'arn:aws:lambda:eu-central-1:244663611855:function:product-service-ts-dev-catalogBatchProcess',
+          type: 'token',
+          identitySource: 'method.request.header.Authorization'
+
         },
       },
     },
