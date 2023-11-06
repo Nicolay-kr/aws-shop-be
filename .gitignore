@@ -1,0 +1,4 @@
+node_modules
+.serverless
+product-service-ts/.esbuild
+.env
