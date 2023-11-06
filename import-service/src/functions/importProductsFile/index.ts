@@ -23,7 +23,7 @@ export default {
         },
         authorizer: {
           name: 'tokenAuth',
-          arn: 'arn:aws:lambda:eu-central-1:244663611855:function:product-service-ts-dev-catalogBatchProcess',
+          arn: 'arn:aws:lambda:eu-central-1:244663611855:function:authorization-service-dev-basicAuthorizer',
           type: 'token',
           identitySource: 'method.request.header.Authorization'
 
